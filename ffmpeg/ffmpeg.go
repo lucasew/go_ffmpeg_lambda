@@ -21,7 +21,7 @@ func (s FFMpegSession) Run() error {
     for _, v := range(s.Params) {
         params = append(params, v)
     }
-    cmd := exec.Command("ffmpeg", params...)
+    cmd := exec.Command("./ffmpeg", params...)
     fmt.Printf("%s %v\n", "ffmpeg", params)
     cmd.Stdin = s.From
     cmd.Stdout = os.Stdout

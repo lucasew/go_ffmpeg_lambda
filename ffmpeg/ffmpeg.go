@@ -1,33 +1,34 @@
 package ffmpeg
 
 import (
-    "os/exec"
-    "os"
-    "fmt"
-    "io"
+	"fmt"
+	"io"
+	"os"
+	"os/exec"
 )
 
 type FFMpegSession struct {
-    From io.Reader;
-    To string;
-    Params []string;
+	From   io.Reader
+	To     string
+	Params []string
 } // Caminho do arquivo, a parte de download rola separado
 
 func (s FFMpegSession) Run() error {
-    var params []string
-    params = append(params, s.To)
-    params = append(params, "-i")
-    params = append(params, "pipe:")
-    for _, v := range(s.Params) {
-        params = append(params, v)
-    }
-    cmd := exec.Command("./ffmpeg", params...)
-    fmt.Printf("%s %v\n", "ffmpeg", params)
-    cmd.Stdin = s.From
-    cmd.Stdout = os.Stdout
-    cmd.Stderr = os.Stderr
-    return cmd.Run()
+	var params []string
+	params = append(params, s.To)
+	params = append(params, "-i")
+	params = append(params, "pipe:")
+	for _, v := range s.Params {
+		params = append(params, v)
+	}
+	cmd := exec.Command("./ffmpeg", params...)
+	fmt.Printf("%s %v\n", "ffmpeg", params)
+	cmd.Stdin = s.From
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
+
 /*
 func main() {
     s := FFMpegSession{
